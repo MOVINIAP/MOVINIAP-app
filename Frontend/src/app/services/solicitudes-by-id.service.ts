@@ -26,7 +26,13 @@ export class ListForByIdService {
   }
 
   getDetallePorIDSolicitud(id_solicitud: number): Observable<any> {
-    const url = `${this.apiUrl}/solicitudes/${id_solicitud}/generate-pdf`;
+    const url = `${this.apiUrl}/solicitudes/${id_solicitud}`;
     return this.http.get(url, {});
   }
+
+  getDetalleSolicitudGenerarPDF(idSolicitud: number): Observable<any> {
+    const url = `${this.apiUrl}/solicitudes/${idSolicitud}/generate-pdf`;
+    return this.http.get(url, {});
+  }
+
 }
