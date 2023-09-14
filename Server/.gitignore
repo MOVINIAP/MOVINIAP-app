@@ -1,0 +1,43 @@
+# Carpeta node_modules generada por npm/yarn
+node_modules/
+
+# Archivos de registro
+logs/
+*.log
+
+# Archivo .env (variables de entorno)
+.env
+
+# Archivo .env.local (variables de entorno locales)
+.env.local
+
+# Archivo .env.* (variables de entorno específicas)
+.env.*
+
+# Carpeta de dependencias de producción (npm/yarn)
+build/
+dist/
+
+# Carpeta de dependencias de desarrollo (npm/yarn)
+devDependencies/
+
+# Carpeta de almacenamiento de caché
+.cache/
+
+# Carpeta de archivos generados por herramientas
+.tmp/
+.eslintcache
+
+# Carpeta de archivos generados por pruebas
+coverage/
+
+# Carpeta de archivos generados por TypeScript
+*.tsbuildinfo
+
+# Archivos generados por IDEs o editores de texto
+.vscode/
+.idea/
+
+# Archivos generados por sistemas operativos
+.DS_Store
+Thumbs.db

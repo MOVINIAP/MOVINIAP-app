@@ -1,0 +1,32 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ListForByIdService {
+  private apiUrl = "http://localhost:3000"; // Reemplaza con la URL de tu API
+
+  constructor(private http: HttpClient) { }
+
+  getSolicitudesPorEmpleado(empleadoId: number): Observable<any> {
+    const url = `${this.apiUrl}/solicitudes/empleado/${empleadoId}`;
+    return this.http.get(url, {});
+  }
+
+  getInformesPorEmpleado(empleadoId: number): Observable<any> {
+    const url = `${this.apiUrl}/informes/empleado/${empleadoId}`;
+    return this.http.get(url, {});
+  }
+
+  getinformesPendientes(empleadoId: number): Observable<any> {
+    const url = `${this.apiUrl}/solicitudes/empleado/solicitudes-sin-informe/${empleadoId}`;
+    return this.http.get(url, {});
+  }
+
+  getDetallePorIDSolicitud(id_solicitud: number): Observable<any> {
+    const url = `${this.apiUrl}/solicitudes/${id_solicitud}/generate-pdf`;
+    return this.http.get(url, {});
+  }
+}

@@ -1,0 +1,210 @@
+<div class="container my-4">
+    <h2 class="text-center my-4">Editar solicitud de movilización</h2>
+    <form [formGroup]="solicitudForm" (ngSubmit)="enviarSolicitud()">
+      <div class="row justify-content-center">
+        <div class="row">
+            <div class="col-md-12">
+              <hr class="my-1">
+            </div>
+          </div>
+<h4 class="text-center my-4">Solicitud de autorización para el cumplimiento de servicios institucionales</h4>
+<div class="row">
+    <div class="col-md-12">
+      <hr class="my-1">
+    </div>
+  </div>
+        <!-- Columna izquierda -->
+        <div class="col-md-6">
+          <div class="form-group mb-3">
+            <label for="ciudad">Ciudad destino</label>
+            <input
+              type="text"
+              class="form-control"
+              id="ciudad"
+              [matAutocomplete]="auto"
+              formControlName="id_ciudad_destino"
+              placeholder="Ingresa el nombre de una ciudad"
+            />
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onCiudadSelected($event)">
+              <mat-option *ngFor="let ciudad of filteredCiudades | async" [value]="ciudad.ciudad">
+                {{ ciudad.ciudad }}
+              </mat-option>
+            </mat-autocomplete>
+          </div>
+        </div>
+<!-- Columna derecha -->
+<div class="col-md-6">
+  <div class="form-group mb-3">
+    <label for="motivo_movilizacion">Motivo movilización</label>
+    <mat-select class="form-control" id="motivo_movilizacion" formControlName="motivo_movilizacion" [(ngModel)]="solicitudDeatil.motivo_movilizacion" placeholder="Seleccione un motivo">
+      <mat-option *ngFor="let motivos of opciones_motivo" [value]="motivos">{{ motivos }}</mat-option>
+    </mat-select>
+  </div>
+</div>
+<div class="col-md-3">
+  <div class="form-group mb-3">
+      <label for="fecha_salida">Fecha salida</label>
+      <input type="date" class="form-control" id="fecha_salida_solicitud" formControlName="fecha_salida_solicitud">
+    </div>
+</div>
+      <div class="col-md-3">
+        <div class="form-group mb-3">
+            <label for="hora_salida">Hora Salida</label>
+            <input type="time" class="form-control" id="hora_salida_solicitud" formControlName="hora_salida_solicitud" [(ngModel)]="solicitudDeatil.hora_salida">
+          </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group mb-3">
+          <label for="fecha_llegada">Fecha llegada</label>
+          <input type="date" class="form-control" id="fecha_llegada_solicitud" formControlName="fecha_llegada_solicitud">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group mb-3">
+            <label for="hora_llegada">Hora llegada</label>
+            <input type="time" class="form-control" id="hora_llegada_solicitud" formControlName="hora_llegada_solicitud" [(ngModel)]="solicitudDeatil.hora_llegada">
+          </div>
+      </div>
+
+      <div class="col-md-6">
+    <div class="form-group mb-3">
+        <label for="descripcion_actividades">Descripción de actividades</label>
+        <textarea class="form-control" id="descripcion_actividades" formControlName="descripcion_actividades" [(ngModel)]="solicitudDeatil.descripcion_actividades"></textarea>
+      </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group mb-3">
+      <label for="listado_empleados">Listado de empleados</label>
+      <mat-select id="listado_empleados" formControlName="listado_empleados" class="form-control" multiple placeholder="Seleccionar servidor">
+        <mat-option *ngFor="let empleado of empleado_nombres " [value]="empleado.empleado_nombres">
+          {{ empleado.empleado_nombres }}
+        </mat-option>
+      </mat-select>
+    </div>
+  </div>
+  
+  
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <hr class="my-1">
+  </div>
+</div>
+</form>
+<form>
+<div class="col-md-6">
+  <button type="button" type="submit" class="btn btn-primary btn-sm my-2" [disabled]="!solicitudForm.valid || botonClicked" (click)=" abrirDialogoConfirmacion()">
+    <i class="fas fa-pencil"></i> Editar Solicitud
+  </button>
+</div>
+</form>
+<!-- Línea separadora -->
+<form [formGroup]="transporteForm" (ngSubmit)="enviarTransporte()">
+<div class="row">
+    <div class="col-md-12">
+      <hr class="my-1">
+    </div>
+  </div>
+  <h4 class="text-center my-4">Transporte</h4>
+  <div class="row">
+    <div class="col-md-12">
+      <hr class="my-1">
+    </div>
+  </div>
+<div class="row justify-content-center"  *ngFor="let conjuntoForm  of conjuntosForm; let i = index">
+  <div class="col-md-6">
+    <div class="form-group mb-3">
+      <label for="tipo_transporte">Tipo de transporte</label>
+      <mat-select class="form-control" id="tipo_transporte_{{ i }}" placeholder="Seleccione un transporte" formControlName="tipo_transporte_soli">
+        <mat-option value="Terrestre">TERRESTRE</mat-option>
+        <mat-option value="Aéreo">AÉREO</mat-option>
+      </mat-select>
+    </div>
+  </div>
+  
+
+    <div class="col-md-6">
+      <div class="form-group mb-3">
+        <label for="nombre_transporte">Nombre de transporte</label>
+        <input type="text" class="form-control" id="nombre_transporte_{{ i }}" placeholder="Seleccione o escriba una opción"
+          [matAutocomplete]="auto" formControlName="nombre_transporte_soli">
+        <mat-autocomplete #auto>
+          <mat-option *ngFor="let opcion of opciones_transporte" [value]="opcion">
+            {{ opcion }}
+          </mat-option>
+        </mat-autocomplete>
+      </div>
+    </div>
+
+        <div class="col-md-12">
+            <div class="form-group mb-3">
+                <label for="ruta">Ruta</label>
+                <textarea class="form-control" id="ruta_{{ i }}" formControlName="ruta_soli"></textarea>
+              </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group mb-3">
+                <label for="fecha_salida">Fecha salida</label>
+                <input type="date" class="form-control" id="fecha_salida_soli_{{ i }}" formControlName="fecha_salida_soli"  [min]="minDate">
+              </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group mb-3">
+                <label for="hora_salida">Hora Salida</label>
+                <input type="time" class="form-control" id="hora_salida_soli_{{ i }}" formControlName="hora_salida_soli">
+              </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group mb-3">
+                <label for="fecha_llegada">Fecha llegada</label>
+                <input type="date" class="form-control" id="fecha_llegada_soli_{{ i }}" formControlName="fecha_llegada_soli" [min]="minDate">
+              </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group mb-3">
+                <label for="hora_llegada">Hora llegada</label>
+                <input type="time" class="form-control" id="hora_llegada_soli_{{ i }}" formControlName="hora_llegada_soli">
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <hr class="my-1">
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div>{{ conjuntoForm.value | json }}</div>
+          </div>
+
+    </div>
+      <button type="submit" class="btn btn-success btn-sm me-2" [disabled]="!transporteForm.valid || !solicitudForm.valid">
+        <i class="fas fa-file-alt"></i> Registrar ruta
+      </button>
+
+    <button type="button" class="btn btn-info btn-sm me-2" (click)="agregarConjunto()">
+        <i class="fas fa-plus"></i> Agregar ruta
+      </button>
+      
+      <button type="button" class="btn btn-danger btn-sm " (click)="quitarConjunto()">
+        <i class="fas fa-minus"></i> Quitar ruta
+      </button>
+<!-- Línea separadora -->
+<div class="row">
+    <div class="col-md-12">
+      <hr class="my-2">
+    </div>
+  </div>
+
+
+</form>
+<form>
+  <div class="col-md-12 d-flex justify-content-end">
+      <button type="submit" class="btn btn-success btn-xl  my-2" [disabled]="!transporteForm.valid || !solicitudForm.valid" (click)="abrirDialogoConfirmacionEnviar()">
+          <i class="fas fa-paper-plane"></i> Enviar
+      </button>
+  </div>
+</form>
+
+
+  </div>
+  

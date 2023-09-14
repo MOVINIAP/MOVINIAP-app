@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Solicitudes de movilización</h4>
+          <h5 class="card-subtitle text-muted">Visualiza y gestiona las solicitudes de tus empleados</h5>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Fecha</th>
+                  <th>Motivo</th>
+                  <th>Empleado</th>
+                  <th>Ciudad Destino</th>
+                  <th>Estado</th>
+                  <th>Acciones</th> <!-- Nueva columna para botones -->
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Itera sobre los datos de la página actual -->
+                <tr *ngFor="let solicitud of solicitudes12">
+                  <td>{{ solicitud.id_solicitud }}</td>
+                  <td>{{ solicitud.fecha_solicitud | date:'dd-MM-yyyy' }}</td>
+                  <td>{{ solicitud.motivo_movilizacion }}</td>
+                  <td>{{ solicitud.empleado.length > 25 ? solicitud.empleado.slice(0, 25) + '...' : solicitud.empleado }}</td>
+                  <td>{{ solicitud.ciudad_destino }}</td>
+                  <td>{{ solicitud.estado_solicitud }}</td>
+                  <td>
+                    <button class="btn btn-primary btn-sm" *ngIf="solicitud.estado_solicitud === 'BORRADOR'" style="margin-right: 10px;">Editar</button>
+                    <button class="btn btn-danger btn-sm" *ngIf="solicitud.estado_solicitud === 'BORRADOR'">Eliminar</button>
+                
+                    <button class="btn btn-info btn-sm" *ngIf="solicitud.estado_solicitud === 'RECHAZADA'" style="margin-right: 10px;" (click)="generatePDF()">Detalle</button>
+                
+                    <button class="btn btn-info btn-sm" *ngIf="solicitud.estado_solicitud === 'ACEPTADA'" style="margin-right: 10px;"(click)="generatePDF()">Detalle</button>
+                    <ng-container *ngIf="solicitud.estado_solicitud === 'ENVIADA'">
+                      Esperando...
+                    </ng-container>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+  
+            <!-- Agrega la paginación -->
+            <nav aria-label="Page navigation">
+              <ul class="pagination">
+                <li class="page-item" [class.disabled]="currentPage === 1">
+                  <a class="page-link" (click)="onPageChange(currentPage - 1)" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li class="page-item" [class.active]="page === currentPage" *ngFor="let page of getPaginationArray()">
+                  <a class="page-link" (click)="onPageChange(page)">{{ page }}</a>
+                </li>
+                <li class="page-item" [class.disabled]="currentPage === totalPages">
+                  <a class="page-link" (click)="onPageChange(currentPage + 1)" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,14 @@
+/* Estilos para las opciones del datalist */
+datalist option {
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 5px;
+    cursor: pointer;
+  }
+  
+  /* Estilo para la opción seleccionada */
+  datalist option:checked {
+    background-color: #007bff;
+    color: #fff;
+  }
+  

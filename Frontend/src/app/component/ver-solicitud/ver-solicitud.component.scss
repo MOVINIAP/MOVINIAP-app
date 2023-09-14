@@ -1,0 +1,35 @@
+.welcome-container {
+    position: relative;
+    width: 100%;
+    height: 75vh;
+    overflow: hidden;
+  }
+  
+  .background-image {
+    background-image: url('../../../assets/images/bg/register_bg_2.png'); /* Cambia la ruta a la imagen de fondo */
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+    filter: blur(2px); /* Opcional: Agregar un efecto de desenfoque */
+
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Opcional: Agregar un fondo semitransparente */
+  }
+  
+  h1 {
+    color: white;
+    font-size: 3rem;
+  }
+  

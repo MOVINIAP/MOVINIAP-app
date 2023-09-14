@@ -1,0 +1,62 @@
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Solicitudes de movilización</h4>
+          <h5 class="card-subtitle text-muted">Visualiza y gestiona las solicitudes de tus empleados</h5>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Fecha</th>
+                  <th>Motivo</th>
+                  <th>Descripción</th>
+                  <th>Ciudad Destino</th>
+                  <th>Estado</th>
+                  <th>Acciones</th> <!-- Nueva columna para botones -->
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Itera sobre los datos de la página actual -->
+                <tr *ngFor="let usuario of usuarios12">
+                  <td>{{ usuario.id_solicitud }}</td>
+                  <td>{{ usuario.fecha_solicitud | date:'dd-MM-yyyy' }}</td>
+                  <td>{{ usuario.motivo_movilizacion }}</td>
+                  <td>{{ usuario.descripcion_actividades.length > 25 ? usuario.descripcion_actividades.slice(0, 25) + '...' : usuario.descripcion_actividades }}</td>
+                  <td>{{ usuario.ciudad_destino }}</td>
+                  <td>{{ usuario.estado_solicitud }}</td>
+                  <td>
+                    <button class="btn btn-info btn-sm" style="margin-right: 10px;">Detalle</button>
+                    <button class="btn btn-primary btn-sm" style="margin-right: 10px;">Editar</button>
+                    <button class="btn btn-danger btn-sm">Eliminar</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+  
+            <!-- Agrega la paginación -->
+            <nav aria-label="Page navigation">
+              <ul class="pagination">
+                <li class="page-item" [class.disabled]="currentPage === 1">
+                  <a class="page-link" (click)="onPageChange(currentPage - 1)" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li class="page-item" [class.active]="page === currentPage" *ngFor="let page of getPaginationArray()">
+                  <a class="page-link" (click)="onPageChange(page)">{{ page }}</a>
+                </li>
+                <li class="page-item" [class.disabled]="currentPage === totalPages">
+                  <a class="page-link" (click)="onPageChange(currentPage + 1)" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
