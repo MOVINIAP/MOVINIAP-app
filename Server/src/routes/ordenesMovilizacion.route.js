@@ -4,6 +4,7 @@ const router = Router();
 const {
   getAllOrdenesMovilizacion,
   createOrdenMovilizacionWithoutSolicitudAdmin,
+  getOrdenMovilizacionById,
 } = require('../controllers/ordenesMovilizacion.controller');
 
 const { verifyToken, ROLES, authorizeRole } = require('../middleware/auth');
@@ -37,12 +38,21 @@ router.get(
 //   "hora_hasta": "23:00",
 //   "num_orden_mov_cge": null
 // }
-
+// ADMIN, SUPERADMIN
+// POST: http://localhost:3000/ordenes-movilizacion/admin-crear
 router.post(
   '/ordenes-movilizacion/admin-crear',
   verifyToken,
   authorizeRole([ROLES.SUPERADMIN, ROLES.ADMIN]),
   createOrdenMovilizacionWithoutSolicitudAdmin
+);
+
+// GET: http://localhost:3000/ordenes-movilizacion/5
+router.get(
+  '/ordenes-movilizacion/:id',
+  verifyToken,
+  authorizeRole([ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.USUARIO]),
+  getOrdenMovilizacionById
 );
 
 module.exports = router;

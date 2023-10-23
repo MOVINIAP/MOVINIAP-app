@@ -12,7 +12,7 @@ const {
 router.get('/empleados', getAllEmployees);
 
 // recibe id empleado
-// GET: http://localhost:3000/empleados
+// GET: http://localhost:3000/empleados/5
 router.get('/empleados/:id', getEmployeeById);
 
 // recibe id empleado

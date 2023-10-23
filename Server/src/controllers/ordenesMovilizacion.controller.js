@@ -55,7 +55,28 @@ const createOrdenMovilizacionWithoutSolicitudAdmin = async (req, res) => {
   }
 };
 
+// getOrdenMovilizacionById
+const getOrdenMovilizacionById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const query =
+      'SELECT * FROM ordenes_movilizacion_obtener_info_orden_por_id($1);';
+    const values = [id];
+
+    const result = await pool.query(query, values);
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error al obtener la orden de movilizacion por id', error);
+    res
+      .status(500)
+      .json({ error: 'Error al obtener la orden de movilizacion por id' });
+  }
+};
+
 module.exports = {
   getAllOrdenesMovilizacion,
   createOrdenMovilizacionWithoutSolicitudAdmin,
+  getOrdenMovilizacionById,
 };
