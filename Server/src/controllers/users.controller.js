@@ -1,60 +1,128 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { pool } = require("../connection/connection");
+const { pool } = require('../connection/connection');
 require('dotenv').config();
 
-const getListUser = async (req, res)=>{
-    const response = await pool.query(`
+const getListUser = async (req, res) => {
+  const response = await pool.query(`
     SELECT u.id_usuario, p.id_persona, p.numero_cedula, p.nombres || ' ' || p.apellidos AS empleado, u.usuario, u.contrasenia
     FROM usuarios u
     JOIN personas p ON u.id_persona = p.id_persona
     JOIN empleados e ON p.id_persona = e.id_persona;`);
-    res.status(200).json(response.rows);
-}
-const getUserById = async (req, res)=>{
-    const id = req.params.id;
-    const response = await pool.query(`SELECT u.id_usuario, p.id_persona, p.numero_cedula, p.nombres || ' ' || p.apellidos AS empleado, u.usuario, u.contrasenia
+  res.status(200).json(response.rows);
+};
+
+const getUserById = async (req, res) => {
+  const id = req.params.id;
+  const response = await pool.query(
+    `SELECT u.id_usuario, p.id_persona, p.numero_cedula, p.nombres || ' ' || p.apellidos AS empleado, u.usuario, u.contrasenia
     FROM usuarios u
     JOIN personas p ON u.id_persona = p.id_persona
-    JOIN empleados e ON p.id_persona = e.id_persona where u.id_usuario=$1;`,[id] )
-    res.json(response.rows);
-}
+    JOIN empleados e ON p.id_persona = e.id_persona where u.id_usuario=$1;`,
+    [id]
+  );
+  res.json(response.rows);
+};
 
-const createUser = async (req, res)=>{
-    const {numero_cedula, nombres, apellidos, 
-        fecha_nacimiento, genero, celular, direccion, correo_electronico,
-        usuario, contrasenia, id_rol,
-        distintivo, fecha_ingreso, id_tipo_licencia, id_cuenta_bancaria, id_cargo,id_unidad} = req.body;
-    const response = await pool.query('SELECT insertar_usuario_empleado($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)',
-        [
-          numero_cedula, nombres, apellidos, fecha_nacimiento, genero, celular, direccion, correo_electronico,
-          usuario, contrasenia, id_rol,
-          distintivo, fecha_ingreso, id_tipo_licencia, id_cuenta_bancaria, id_cargo, id_unidad
-        ]);
-    console.log(response);
-    res.send('usuario creado');
-    };
+const createUser = async (req, res) => {
+  const {
+    numero_cedula,
+    nombres,
+    apellidos,
+    fecha_nacimiento,
+    genero,
+    celular,
+    direccion,
+    correo_electronico,
+    usuario,
+    contrasenia,
+    id_rol,
+    distintivo,
+    fecha_ingreso,
+    id_tipo_licencia,
+    id_cuenta_bancaria,
+    id_cargo,
+    id_unidad,
+  } = req.body;
+  const response = await pool.query(
+    'SELECT insertar_usuario_empleado($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)',
+    [
+      numero_cedula,
+      nombres,
+      apellidos,
+      fecha_nacimiento,
+      genero,
+      celular,
+      direccion,
+      correo_electronico,
+      usuario,
+      contrasenia,
+      id_rol,
+      distintivo,
+      fecha_ingreso,
+      id_tipo_licencia,
+      id_cuenta_bancaria,
+      id_cargo,
+      id_unidad,
+    ]
+  );
+  console.log(response);
+  res.send('usuario creado');
+};
 
-const uptadeUser = async (req,res)=>{
-        const id = req.params.id;
-        const {numero_cedula, nombres, apellidos, 
-            fecha_nacimiento, genero, celular, direccion, correo_electronico,
-            usuario, contrasenia, id_rol,
-            distintivo, fecha_ingreso, id_tipo_licencia, id_cuenta_bancaria, id_cargo,id_unidad} = req.body;
-        const response = await pool.query('SELECT actualizar_usuario_empleado($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)', 
-        [id, numero_cedula, nombres, apellidos, 
-            fecha_nacimiento, genero, celular, direccion, correo_electronico,
-            usuario, contrasenia, id_rol,
-            distintivo, fecha_ingreso, id_tipo_licencia, id_cuenta_bancaria, id_cargo,id_unidad]);
-        console.log(response);
-        res.json('usuario actualizado');
-    }
+const uptadeUser = async (req, res) => {
+  const id = req.params.id;
+  const {
+    numero_cedula,
+    nombres,
+    apellidos,
+    fecha_nacimiento,
+    genero,
+    celular,
+    direccion,
+    correo_electronico,
+    usuario,
+    contrasenia,
+    id_rol,
+    distintivo,
+    fecha_ingreso,
+    id_tipo_licencia,
+    id_cuenta_bancaria,
+    id_cargo,
+    id_unidad,
+  } = req.body;
+  const response = await pool.query(
+    'SELECT actualizar_usuario_empleado($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)',
+    [
+      id,
+      numero_cedula,
+      nombres,
+      apellidos,
+      fecha_nacimiento,
+      genero,
+      celular,
+      direccion,
+      correo_electronico,
+      usuario,
+      contrasenia,
+      id_rol,
+      distintivo,
+      fecha_ingreso,
+      id_tipo_licencia,
+      id_cuenta_bancaria,
+      id_cargo,
+      id_unidad,
+    ]
+  );
+  console.log(response);
+  res.json('usuario actualizado');
+};
 
-const deleteUser = async (req,res)=>{
-    const id = req.params.id;
-    const response = await pool.query('SELECT eliminar_usuario($1);', [id])
-    console.log(response);
-    res.json(`User ${id} eliminado`);
+const deleteUser = async (req, res) => {
+  const id = req.params.id;
+  const response = await pool.query('SELECT eliminar_usuario($1);', [id]);
+  console.log(response);
+  res.json(`User ${id} eliminado`);
 };
 
 const registerUser = async (req, res) => {
@@ -116,13 +184,14 @@ WHERE u.usuario = $1`;
 
     const secretKey = process.env.JWT_SECRET_KEY;
     if (!secretKey) {
-      return res.status(500).json({ message: 'Error al iniciar sesión: Clave secreta no configurada' });
+      return res.status(500).json({
+        message: 'Error al iniciar sesión: Clave secreta no configurada',
+      });
     }
     const tokenOptions = { expiresIn: '1h' };
     const token = jwt.sign(tokenPayload, secretKey, tokenOptions);
 
     res.json({ token });
-
   } catch (error) {
     console.error('Error al iniciar sesión:', error);
     res.status(500).json({ message: 'Error al iniciar sesión' });
@@ -154,16 +223,13 @@ WHERE id_usuario = $1`;
   }
 };
 
-
-
-
-module.exports={
-    getListUser,
-    createUser,
-    getUserById,
-    deleteUser,
-    uptadeUser,
-    registerUser,
-    loginUser,
-    getUserProfile,
-}
+module.exports = {
+  getListUser,
+  createUser,
+  getUserById,
+  deleteUser,
+  uptadeUser,
+  registerUser,
+  loginUser,
+  getUserProfile,
+};

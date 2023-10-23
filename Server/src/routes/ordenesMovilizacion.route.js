@@ -5,6 +5,8 @@ const {
   getAllOrdenesMovilizacion,
   createOrdenMovilizacionWithoutSolicitudAdmin,
   getOrdenMovilizacionById,
+  getOrdenesMovilizacionByEmpleadoId,
+  cambiarEstadoOrdenMovilizacion,
 } = require('../controllers/ordenesMovilizacion.controller');
 
 const { verifyToken, ROLES, authorizeRole } = require('../middleware/auth');
@@ -53,6 +55,23 @@ router.get(
   verifyToken,
   authorizeRole([ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.USUARIO]),
   getOrdenMovilizacionById
+);
+
+// GET: http://localhost:3000/ordenes-movilizacion/empleado/5
+router.get(
+  '/ordenes-movilizacion/empleado/:id',
+  verifyToken,
+  authorizeRole([ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.USUARIO]),
+  getOrdenesMovilizacionByEmpleadoId
+);
+
+// PUT: http://localhost:3000/ordenes-movilizacion/5/cambiar-estado
+// PUT: http://localhost:3000/ordenes-movilizacion/:id/cambiar-estado
+router.put(
+  '/ordenes-movilizacion/:id/cambiar-estado',
+  verifyToken,
+  authorizeRole([ROLES.SUPERADMIN, ROLES.ADMIN]),
+  cambiarEstadoOrdenMovilizacion
 );
 
 module.exports = router;

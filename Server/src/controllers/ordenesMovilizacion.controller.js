@@ -75,8 +75,48 @@ const getOrdenMovilizacionById = async (req, res) => {
   }
 };
 
+// getOrdenesMovilizacionByEmpleadoId
+const getOrdenesMovilizacionByEmpleadoId = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const query =
+      'SELECT * FROM ordenes_movilizacion_obtener_ordenes_por_empleado($1);';
+    const values = [id];
+    const response = await pool.query(query, values);
+    res.json(response.rows);
+  } catch (error) {
+    console.error(
+      'Error al obtener las ordenes de movilizacion por empleado',
+      error
+    );
+    res.status(500).json({
+      error: 'Error al obtener las ordenes de movilizacion por empleado',
+    });
+  }
+};
+
+// cambiarEstadoOrdenMovilizacion
+const cambiarEstadoOrdenMovilizacion = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { estado } = req.body;
+    const query =
+      'SELECT * FROM ordenes_movilizacion_cambiar_estado_orden($1, $2);';
+    const values = [id, estado];
+    const response = await pool.query(query, values);
+    res.json(response.rows);
+  } catch (error) {
+    console.error('Error al cambiar el estado de la orden de movilizacion');
+    res.status(500).json({
+      error: 'Error al cambiar el estado de la orden de movilizacion',
+    });
+  }
+};
+
 module.exports = {
   getAllOrdenesMovilizacion,
   createOrdenMovilizacionWithoutSolicitudAdmin,
   getOrdenMovilizacionById,
+  getOrdenesMovilizacionByEmpleadoId,
+  cambiarEstadoOrdenMovilizacion,
 };

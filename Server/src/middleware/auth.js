@@ -2,9 +2,9 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const ROLES = {
-  SUPERADMIN: "1",
-  ADMIN: "2",
-  USUARIO: "3",
+  SUPERADMIN: '1',
+  ADMIN: '2',
+  USUARIO: '3',
 };
 
 const verifyToken = (req, res, next) => {
@@ -19,7 +19,6 @@ const verifyToken = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (error) {
-    console.error(error);
     res.status(403).json({ message: 'Token inválido' });
   }
 };
@@ -35,7 +34,7 @@ const authorizeRole = (requiredRoles) => (req, res, next) => {
 };
 
 module.exports = {
-    ROLES,
-    verifyToken,
-    authorizeRole,
+  ROLES,
+  verifyToken,
+  authorizeRole,
 };

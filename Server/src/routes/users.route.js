@@ -1,19 +1,18 @@
-const {Router} = require('express');
+const { Router } = require('express');
 const router = Router();
 
-const { 
-    getListUser,
-    createUser, 
-    getUserById, 
-    deleteUser, 
-    uptadeUser, 
-    loginUser, 
-    registerUser, 
-    getUserProfile 
-} = require("../controllers/users.controller");
+const {
+  getListUser,
+  createUser,
+  getUserById,
+  deleteUser,
+  uptadeUser,
+  loginUser,
+  registerUser,
+  getUserProfile,
+} = require('../controllers/users.controller');
 
-const { verifyToken } = require("../middleware/auth");
-
+const { verifyToken } = require('../middleware/auth');
 
 router.get('/usuarios', getListUser);
 router.get('/usuarios/:id', getUserById);
@@ -29,6 +28,5 @@ router.post('/login', loginUser);
 
 // Ruta para obtener información del usuario autenticado
 router.get('/profile', verifyToken, getUserProfile);
-
 
 module.exports = router;
