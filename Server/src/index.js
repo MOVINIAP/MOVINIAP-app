@@ -3,10 +3,12 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const express = require('express');
 const app = express();
+const morgan = require('morgan');
 
 //Middlewares
 app.use(express.json());
 app.use(cors());
+app.use(morgan('tiny'));
 // app.use(cors({
 //   origin: 'http://localhost:4200', // Cambia esta URL al dominio que quieres permitir
 //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Métodos permitidos
