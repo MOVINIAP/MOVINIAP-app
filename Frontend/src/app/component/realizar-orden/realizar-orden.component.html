@@ -1,1 +1,143 @@
-<p>realizar-orden works!</p>
+<div class="container my-4">
+    <h2 class="text-center my-4">Realizar orden de movilización</h2>
+    <form [formGroup]="solicitudForm" (ngSubmit)="enviarSolicitud()">
+      <div class="row justify-content-center">
+<div class="row">
+    <div class="col-md-12">
+      <hr class="my-1">
+    </div>
+  </div>
+        <!-- Columna izquierda -->
+        <div class="col-md-6">
+          <div class="form-group mb-3">
+            <label for="ciudad">Ciudad destino</label>
+            <input
+              type="text"
+              class="form-control"
+              id="ciudad"
+              [matAutocomplete]="auto"
+              formControlName="id_ciudad_destino"
+              placeholder="Ingresar ciudad"
+            />
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onCiudadSelected($event)">
+              <mat-option *ngFor="let ciudad of filteredCiudades | async" [value]="ciudad.ciudad">
+                {{ ciudad.ciudad }}
+              </mat-option>
+            </mat-autocomplete>
+          </div>
+        </div>
+<!-- Columna derecha -->
+<div class="col-md-6">
+    <div class="form-group mb-3">
+      <label for="ciudad">Empleado solicitante</label>
+      <input
+        type="text"
+        class="form-control"
+        id="ciudad"
+        [matAutocomplete]="auto"
+        formControlName="id_ciudad_destino"
+        placeholder="Ingresar empleado"
+      />
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onCiudadSelected($event)">
+        <mat-option *ngFor="let ciudad of filteredCiudades | async" [value]="ciudad.ciudad">
+          {{ ciudad.ciudad }}
+        </mat-option>
+      </mat-autocomplete>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="form-group mb-3">
+      <label for="ciudad">Empleado conductor</label>
+      <input
+        type="text"
+        class="form-control"
+        id="ciudad"
+        [matAutocomplete]="auto"
+        formControlName="id_ciudad_destino"
+        placeholder="Ingresar empleado"
+      />
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onCiudadSelected($event)">
+        <mat-option *ngFor="let ciudad of filteredCiudades | async" [value]="ciudad.ciudad">
+          {{ ciudad.ciudad }}
+        </mat-option>
+      </mat-autocomplete>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="form-group mb-3">
+      <label for="ciudad">Empleado solicitante</label>
+      <input
+        type="text"
+        class="form-control"
+        id="ciudad"
+        [matAutocomplete]="auto"
+        formControlName="id_ciudad_destino"
+        placeholder="Ingresar empleado"
+      />
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onCiudadSelected($event)">
+        <mat-option *ngFor="let ciudad of filteredCiudades | async" [value]="ciudad.ciudad">
+          {{ ciudad.ciudad }}
+        </mat-option>
+      </mat-autocomplete>
+    </div>
+  </div>
+
+<div class="col-md-3">
+  <div class="form-group mb-3">
+      <label for="fecha_salida">Fecha salida</label>
+      <input type="date" class="form-control" id="fecha_salida_solicitud" formControlName="fecha_salida_solicitud" [min]="minDate" >
+    </div>
+</div>
+      <div class="col-md-3">
+        <div class="form-group mb-3">
+            <label for="hora_salida">Hora Salida</label>
+            <input type="time" class="form-control" id="hora_salida_solicitud" formControlName="hora_salida_solicitud">
+          </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group mb-3">
+          <label for="fecha_llegada">Fecha llegada</label>
+          <input type="date" class="form-control" id="fecha_llegada_solicitud" formControlName="fecha_llegada_solicitud" [min]="minDate">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group mb-3">
+            <label for="hora_llegada">Hora llegada</label>
+            <input type="time" class="form-control" id="hora_llegada_solicitud" formControlName="hora_llegada_solicitud" >
+          </div>
+      </div>
+
+      <div class="col-md-6">
+    <div class="form-group mb-3">
+        <label for="descripcion_actividades">Descripción de actividades</label>
+        <textarea class="form-control" id="descripcion_actividades" formControlName="descripcion_actividades"></textarea>
+      </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group mb-3">
+      <label for="listado_empleados">Listado de empleados</label>
+      <mat-select id="listado_empleados" formControlName="listado_empleados" class="form-control" multiple placeholder="Seleccionar servidor">
+        <mat-option *ngFor="let empleado of empleado_nombres " [value]="empleado.empleado_nombres">
+          {{ empleado.empleado_nombres }}
+        </mat-option>
+      </mat-select>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <hr class="my-1">
+  </div>
+</div>
+</form>
+<form>
+<div class="col-md-6">
+  <button type="button" type="submit" class="btn btn-primary btn-sm my-2" [disabled]="!solicitudForm.valid || botonClicked" (click)=" abrirDialogoConfirmacion()">
+    <i class="fas fa-save"></i> Guardar Solicitud
+  </button>
+</div>
+</form>
+  </div>
+  

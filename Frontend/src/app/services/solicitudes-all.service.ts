@@ -49,5 +49,9 @@ export class ListAllService {
     // Realiza la solicitud HTTP con el encabezado de autorización
     return this.http.get(`${this.baseUrl}/informes`, { headers });
   }
-
+//Obtener ordenes totales
+     getOrdenes(): Observable<any> {
+      // Realiza la solicitud HTTP sin el encabezado de autorización
+      return this.http.get(`${this.baseUrl}/ordenes-movilizacion`);
+    }
 }

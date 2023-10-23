@@ -2,9 +2,9 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Lista de usuarios</h4>
+        <h4 class="card-title">Órdenes de movilización</h4>
         <h5 class="card-subtitle text-muted">
-          Visualiza y gestiona las información tus empleados
+          Visualiza y gestiona las órdenes de movilización
         </h5>
         <div class="table-responsive">
           <table class="table table-bordered">
@@ -12,62 +12,60 @@
               <tr>
                 <!-- Cambiar para usuarios -->
                 <th>ID</th>
-                <th>Fecha</th>
-                <th>Motivo</th>
-                <th>Descripción</th>
-                <th>Ciudad Destino</th>
-                <th>Estado</th>
+                <th>Nombre</th>
+                <th>Vehiculo</th>
+                <th>Fecha desde</th>
+                <th>Fecha hasta</th>
                 <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
               <!-- Cambiar para usuarios -->
               <tr *ngFor="let orden of ordenes12">
-                <td>{{ orden.id_solicitud }}</td>
-                <td>{{ orden.fecha_solicitud }}</td>
-                <td>{{ orden.motivo_movilizacion }}</td>
+                <td>{{ orden.id_orden_movilizacion }}</td>
+                <td>{{ orden.empleado_solicitante }}</td>
                 <td>
                   {{
-                    orden.descripcion_actividades.length > 25
-                      ? orden.descripcion_actividades.slice(0, 25) + "..."
-                      : orden.descripcion_actividades
+                    orden.vehiculo.length > 25
+                      ? orden.vehiculo.slice(0, 25) + "..."
+                      : orden.vehiculo
                   }}
                 </td>
-                <td>{{ orden.ciudad_destino }}</td>
-                <td>{{ orden.estado_solicitud }}</td>
+                <td>{{ orden.fecha_desde }}</td>
+                <td>{{ orden.fecha_hasta }}</td>
                 <td>
                   <button
                     class="btn btn-primary btn-sm"
-                    *ngIf="orden.estado_solicitud === 'BORRADOR'"
+                    *ngIf="orden.estado === 'BORRADOR'"
                     style="margin-right: 10px"
                   >
                     Editar
                   </button>
                   <button
                     class="btn btn-danger btn-sm"
-                    *ngIf="orden.estado_solicitud === 'BORRADOR'"
+                    *ngIf="orden.estado === 'BORRADOR'"
                   >
                     Eliminar
                   </button>
 
                   <button
                     class="btn btn-info btn-sm"
-                    *ngIf="orden.estado_solicitud === 'RECHAZADA'"
+                    *ngIf="orden.estado === 'RECHAZADA'"
                     style="margin-right: 10px"
-                    (click)="generatePDF()"
+                    (click)="generatePDF(orden.id_orden_movilizacion)"
                   >
                     Detalle
                   </button>
 
                   <button
                     class="btn btn-info btn-sm"
-                    *ngIf="orden.estado_solicitud === 'ACEPTADA'"
+                    *ngIf="orden.estado === 'ACEPTADA'"
                     style="margin-right: 10px"
-                    (click)="generatePDF()"
+                    (click)="generatePDF(orden.id_orden_movilizacion)"
                   >
                     Detalle
                   </button>
-                  <ng-container *ngIf="orden.estado_solicitud === 'ENVIADA'">
+                  <ng-container *ngIf="orden.estado === 'ENVIADA'">
                     Esperando...
                   </ng-container>
                 </td>

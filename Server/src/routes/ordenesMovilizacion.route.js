@@ -15,8 +15,8 @@ const { verifyToken, ROLES, authorizeRole } = require('../middleware/auth');
 // GET: http://localhost:3000/ordenes-movilizacion
 router.get(
   '/ordenes-movilizacion',
-  verifyToken,
-  authorizeRole([ROLES.SUPERADMIN, ROLES.ADMIN]),
+  //verifyToken,
+  //authorizeRole([ROLES.SUPERADMIN, ROLES.ADMIN]),
   getAllOrdenesMovilizacion
 );
 
@@ -42,16 +42,16 @@ router.get(
 // POST: http://localhost:3000/ordenes-movilizacion/admin-crear
 router.post(
   '/ordenes-movilizacion/admin-crear',
-  verifyToken,
-  authorizeRole([ROLES.SUPERADMIN, ROLES.ADMIN]),
+  //verifyToken,
+  //authorizeRole([ROLES.SUPERADMIN, ROLES.ADMIN]),
   createOrdenMovilizacionWithoutSolicitudAdmin
 );
 
 // GET: http://localhost:3000/ordenes-movilizacion/5
 router.get(
   '/ordenes-movilizacion/:id',
-  verifyToken,
-  authorizeRole([ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.USUARIO]),
+  //verifyToken,
+  //authorizeRole([ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.USUARIO]),
   getOrdenMovilizacionById
 );
 
