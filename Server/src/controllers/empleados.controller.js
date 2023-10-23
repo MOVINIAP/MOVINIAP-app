@@ -7,6 +7,7 @@ const getAllEmployees = async (req, res) => {
   res.json(response.rows);
 };
 
+// recibe id empleado
 const getEmployeeById = async (req, res) => {
   const id = req.params.id;
   const response = await pool.query(

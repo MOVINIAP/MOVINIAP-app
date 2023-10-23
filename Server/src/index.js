@@ -26,6 +26,7 @@ app.use(require('./routes/unidades.route'));
 app.use(require('./routes/ciudades.route'));
 app.use(require('./routes/informes.route'));
 app.use(require('./routes/bancos.route'));
+app.use(require('./routes/ordenesMovilizacion.route'));
 
 app.listen(3000);
 console.log('servidor en puerto 3000');
