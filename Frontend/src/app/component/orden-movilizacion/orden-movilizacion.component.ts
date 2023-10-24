@@ -3,6 +3,8 @@ import { ListAllService } from 'src/app/services/solicitudes-all.service'; // As
 import * as pdfMake from 'pdfmake/build/pdfmake'; // Importa pdfMake con el alias "pdfMake"
 import * as pdfFonts from 'pdfmake/build/vfs_fonts'; // Importa vfs_fonts
 import { ListForByIdService } from 'src/app/services/solicitudes-by-id.service';
+import { SharedDataService } from 'src/app/services/shared-data.service';
+import { ActivatedRoute, Router } from '@angular/router';
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -15,7 +17,7 @@ export class OrdenMovilizacionComponent {
   idOrden!: number;
   ordenDetalle: any = {};
 
-  constructor(private ordenService: ListAllService, private ordenesIDService: ListForByIdService) {}
+  constructor(private ordenService: ListAllService, private ordenesIDService: ListForByIdService, private sharedDataService: SharedDataService, private router: Router, private route: ActivatedRoute) {}
 
   currentPage = 1;
   itemsPerPage = 5; 
@@ -108,7 +110,10 @@ export class OrdenMovilizacionComponent {
   );
   }
   
-  
+  editarOrden(id: number) {
+    this.sharedDataService.setOrdenId(id);
+    this.router.navigate(['../editar-orden-movilizacion'], { relativeTo: this.route });
+  }
 
   
 

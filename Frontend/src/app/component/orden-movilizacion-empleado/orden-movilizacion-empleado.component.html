@@ -11,8 +11,9 @@
               <thead>
                 <tr>
                   <!-- Cambiar para usuarios -->
-                  <th>ID</th>
-                  <th>Nombre</th>
+                  <th>No</th>
+                  <th>Solicitante</th>
+                  <th>Conductor</th>
                   <th>Vehiculo</th>
                   <th>Fecha desde</th>
                   <th>Fecha hasta</th>
@@ -22,8 +23,9 @@
               <tbody>
                 <!-- Cambiar para usuarios -->
                 <tr *ngFor="let orden of ordenes12">
-                  <td>{{ orden.id_orden_movilizacion }}</td>
+                  <td>{{ orden.secuencial }}</td>
                   <td>{{ orden.empleado_solicitante }}</td>
+                  <td>{{ orden.empleado_conductor }}</td>
                   <td>
                     {{
                       orden.vehiculo.length > 25
@@ -38,6 +40,7 @@
                       class="btn btn-info btn-sm"
                       *ngIf="orden.estado === 'BORRADOR'"
                       style="margin-right: 10px"
+                      (click)="editarOrden(orden.id_orden_movilizacion)"
                     >
                     Detalle
                     </button>
@@ -47,6 +50,7 @@
                       class="btn btn-info btn-sm"
                       *ngIf="orden.estado === 'RECHAZADA'"
                       style="margin-right: 10px"
+                      (click)="editarOrden(orden.id_orden_movilizacion)"
                     >
                       Detalle
                     </button>
@@ -55,10 +59,11 @@
                       class="btn btn-info btn-sm"
                       *ngIf="orden.estado === 'ACEPTADA'"
                       style="margin-right: 10px"
+                      (click)="editarOrden(orden.id_orden_movilizacion)"
                     >
                       Detalle
                     </button>
-                    <ng-container *ngIf="orden.estado === 'ENVIADA'">
+                    <ng-container *ngIf="orden.estado === 'ENVIADA'" (click)="editarOrden(orden.id_orden_movilizacion)">
                       Detalle
                     </ng-container>
                   </td>

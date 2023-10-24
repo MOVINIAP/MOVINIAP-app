@@ -60,8 +60,8 @@ router.get(
 // GET: http://localhost:3000/ordenes-movilizacion/empleado/5
 router.get(
   '/ordenes-movilizacion/empleado/:id',
-  verifyToken,
-  authorizeRole([ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.USUARIO]),
+  //verifyToken,
+ // authorizeRole([ROLES.SUPERADMIN, ROLES.ADMIN, ROLES.USUARIO]),
   getOrdenesMovilizacionByEmpleadoId
 );
 

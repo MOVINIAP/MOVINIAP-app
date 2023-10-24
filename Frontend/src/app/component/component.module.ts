@@ -38,6 +38,7 @@ import { LoginComponent } from './login/login.component';
 import { InfromesPendientesComponent } from './infromes-pendientes/infromes-pendientes.component';
 import { EditSolicitudComponent } from './edit-solicitud/edit-solicitud.component';
 import { OrdenMovilizacionEmpleadoComponent } from './orden-movilizacion-empleado/orden-movilizacion-empleado.component';
+import { EditarOrdenMovilizacionComponent } from './editar-orden-movilizacion/editar-orden-movilizacion.component';
 
 
 
@@ -82,7 +83,8 @@ import { OrdenMovilizacionEmpleadoComponent } from './orden-movilizacion-emplead
     LoginComponent,
     InfromesPendientesComponent,
     EditSolicitudComponent,
-    OrdenMovilizacionEmpleadoComponent
+    OrdenMovilizacionEmpleadoComponent,
+    EditarOrdenMovilizacionComponent
   ],
 })
 export class ComponentsModule { }

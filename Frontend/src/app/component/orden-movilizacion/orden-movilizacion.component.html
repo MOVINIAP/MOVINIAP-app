@@ -11,8 +11,9 @@
             <thead>
               <tr>
                 <!-- Cambiar para usuarios -->
-                <th>ID</th>
-                <th>Nombre</th>
+                <th>No</th>
+                <th>Solicitante</th>
+                <th>Conductor</th>
                 <th>Vehiculo</th>
                 <th>Fecha desde</th>
                 <th>Fecha hasta</th>
@@ -22,12 +23,21 @@
             <tbody>
               <!-- Cambiar para usuarios -->
               <tr *ngFor="let orden of ordenes12">
-                <td>{{ orden.id_orden_movilizacion }}</td>
-                <td>{{ orden.empleado_solicitante }}</td>
+                <td>{{ orden.secuencial }}</td>
+                <td>{{
+                  orden.empleado_solicitante.length > 20
+                    ? orden.empleado_solicitante.slice(0, 20) + "..."
+                    : orden.empleado_solicitante
+                }}</td>
+                <td>                  {{
+                  orden.empleado_conductor.length > 20
+                    ? orden.empleado_conductor.slice(0, 20) + "..."
+                    : orden.empleado_conductor
+                }}</td>
                 <td>
                   {{
-                    orden.vehiculo.length > 25
-                      ? orden.vehiculo.slice(0, 25) + "..."
+                    orden.vehiculo.length > 20
+                      ? orden.vehiculo.slice(0, 20) + "..."
                       : orden.vehiculo
                   }}
                 </td>
@@ -38,36 +48,36 @@
                     class="btn btn-primary btn-sm"
                     *ngIf="orden.estado === 'BORRADOR'"
                     style="margin-right: 10px"
+                    (click)="editarOrden(orden.id_orden_movilizacion)"
                   >
-                    Editar
-                  </button>
-                  <button
-                    class="btn btn-danger btn-sm"
-                    *ngIf="orden.estado === 'BORRADOR'"
-                  >
-                    Eliminar
+                    Detalle
                   </button>
 
                   <button
-                    class="btn btn-info btn-sm"
+                    class="btn btn-danger btn-sm"
                     *ngIf="orden.estado === 'RECHAZADA'"
                     style="margin-right: 10px"
                     (click)="generatePDF(orden.id_orden_movilizacion)"
                   >
-                    Detalle
+                    PDF
                   </button>
 
                   <button
-                    class="btn btn-info btn-sm"
+                    class="btn btn-danger btn-sm"
                     *ngIf="orden.estado === 'ACEPTADA'"
                     style="margin-right: 10px"
                     (click)="generatePDF(orden.id_orden_movilizacion)"
                   >
-                    Detalle
+                    PDF
                   </button>
-                  <ng-container *ngIf="orden.estado === 'ENVIADA'">
-                    Esperando...
-                  </ng-container>
+                  <button
+                  class="btn btn-danger btn-sm"
+                  *ngIf="orden.estado === 'ENVIADA'"
+                  style="margin-right: 10px"
+                  (click)="generatePDF(orden.id_orden_movilizacion)"
+                >
+                  PDF
+                </button>
                 </td>
               </tr>
             </tbody>

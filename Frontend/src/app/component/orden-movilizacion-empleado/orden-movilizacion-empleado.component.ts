@@ -5,6 +5,8 @@ import * as pdfFonts from 'pdfmake/build/vfs_fonts'; // Importa vfs_fonts
 import { ListForByIdService } from 'src/app/services/solicitudes-by-id.service';
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 import { AuthService } from 'src/app/services/auth.service';
+import { SharedDataService } from 'src/app/services/shared-data.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-orden-movilizacion-empleado',
@@ -18,7 +20,7 @@ export class OrdenMovilizacionEmpleadoComponent {
   idEmpleado!: number;
 
   constructor(private ordenService: ListAllService, private ordenesIDService: ListForByIdService, private authService: AuthService
-    , ) {}
+    , private sharedData: SharedDataService, private route: ActivatedRoute, private router: Router,) {}
 
   currentPage = 1;
   itemsPerPage = 5; 
@@ -46,6 +48,12 @@ export class OrdenMovilizacionEmpleadoComponent {
       }
     );
   }
+
+  editarOrden(id: number) {
+    this.sharedData.setOrdenId(id);
+    this.router.navigate(['../editar-orden-movilizacion'], { relativeTo: this.route });
+  }
+
   getPaginationArray(): number[] {
     const totalPages = this.getTotalPages(); // Implementa la función getTotalPages() para obtener el número total de páginas
     return Array.from({ length: totalPages }, (_, index) => index + 1);

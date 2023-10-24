@@ -7,6 +7,7 @@ export class SharedDataService {
   private idPersona: number = 0;
   private informeId!: number;
   private solicitudId!: number;
+  private ordenId!: number;
 
   setIdPersona(id: number): void {
     this.idPersona = id;
@@ -28,5 +29,12 @@ export class SharedDataService {
   }
   getSolicitudId() {
     return this.solicitudId;
+  }
+
+  setOrdenId(id: number) {
+    this.ordenId = id;
+  }
+  getOrdenId() {
+    return this.ordenId;
   }
 }
