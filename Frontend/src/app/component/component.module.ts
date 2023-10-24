@@ -37,6 +37,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { LoginComponent } from './login/login.component';
 import { InfromesPendientesComponent } from './infromes-pendientes/infromes-pendientes.component';
 import { EditSolicitudComponent } from './edit-solicitud/edit-solicitud.component';
+import { OrdenMovilizacionEmpleadoComponent } from './orden-movilizacion-empleado/orden-movilizacion-empleado.component';
 
 
 
@@ -80,7 +81,8 @@ import { EditSolicitudComponent } from './edit-solicitud/edit-solicitud.componen
     TableComponent,
     LoginComponent,
     InfromesPendientesComponent,
-    EditSolicitudComponent
+    EditSolicitudComponent,
+    OrdenMovilizacionEmpleadoComponent
   ],
 })
 export class ComponentsModule { }

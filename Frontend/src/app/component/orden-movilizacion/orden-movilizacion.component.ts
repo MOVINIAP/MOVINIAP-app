@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ListAllService } from 'src/app/services/solicitudes-all.service'; // Asegúrate de importar correctamente tu servicio
 import * as pdfMake from 'pdfmake/build/pdfmake'; // Importa pdfMake con el alias "pdfMake"
 import * as pdfFonts from 'pdfmake/build/vfs_fonts'; // Importa vfs_fonts
+import { ListForByIdService } from 'src/app/services/solicitudes-by-id.service';
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -11,8 +12,10 @@ import * as pdfFonts from 'pdfmake/build/vfs_fonts'; // Importa vfs_fonts
 })
 export class OrdenMovilizacionComponent {
   ordenes: any[] = [];
+  idOrden!: number;
+  ordenDetalle: any = {};
 
-  constructor(private ordenService: ListAllService) {}
+  constructor(private ordenService: ListAllService, private ordenesIDService: ListForByIdService) {}
 
   currentPage = 1;
   itemsPerPage = 5; 
@@ -26,7 +29,12 @@ export class OrdenMovilizacionComponent {
 
   }
 
-  generatePDF() {
+  generatePDF(idOrden: number) {
+    this.idOrden = idOrden;
+    this.ordenesIDService.getDetalleOrdenMovilizacionGenerarPDF(this.idOrden).subscribe(
+      async data => {
+        this.ordenDetalle = data;
+        console.log(this.ordenDetalle);
     const documentDefinition = {
       pageSize: 'A6',
       pageOrientation: 'landscape',
@@ -50,23 +58,23 @@ export class OrdenMovilizacionComponent {
               // keepWithHeaderRows: 1,
               body: [
 
-                [{text: 'Lugar, fecha y hora de emisión de la orden: ', style: 'tableHeader', colSpan: 1, fontSize: 10, bold: true, margin: [0, 2], color: '#0f13ac'},
-                {text: 'Marca/Tipo: ', style: 'tableHeader', colSpan: 1, fontSize: 10, bold: true, margin: [0, 2], color: '#0f13ac'}],
+                [{text: 'Lugar, fecha y hora de emisión de la orden: ' + `${this.ordenDetalle.ciudad_origen} - ${this.ordenDetalle.fecha_hora_emision}`, style: 'tableHeader', colSpan: 1, fontSize: 8, bold: true, margin: [0, 2], color: '#0f13ac'},
+                {text: 'Marca/Tipo: ' + `${this.ordenDetalle.marca}/${this.ordenDetalle.tipo_vehiculo}`, style: 'tableHeader', colSpan: 1, fontSize: 8, bold: true, margin: [0, 2], color: '#0f13ac'}],
 
-                [{text: 'Motivo de la movilización: ', style: 'tableHeader', colSpan: 1, fontSize: 10, bold: true, margin: [0, 2], color: '#0f13ac'},
-                {text: 'Color: ', style: 'tableHeader', colSpan: 1, fontSize: 10, bold: true, margin: [0, 2], color: '#0f13ac'}],
+                [{text: 'Motivo de la movilización: ' + `${this.ordenDetalle.descripcion_actividades}`, style: 'tableHeader', colSpan: 1, fontSize: 8, bold: true, margin: [0, 2], color: '#0f13ac'},
+                {text: 'Color: ' + `${this.ordenDetalle.color_primario}`, style: 'tableHeader', colSpan: 1, fontSize: 8, bold: true, margin: [0, 2], color: '#0f13ac'}],
                 
-                [{text: 'Lugar de origen y de destino: ', style: 'tableHeader', colSpan: 1, fontSize: 10, bold: true, margin: [0, 2], color: '#0f13ac'},
-                {text: 'Placa N:  ', style: 'tableHeader', colSpan: 1, fontSize: 10, bold: true, margin: [0, 2], color: '#0f13ac'}],
+                [{text: 'Lugar de origen y de destino: ' + `${this.ordenDetalle.ciudad_origen} - ${this.ordenDetalle.ciudad_destino}`, style: 'tableHeader', colSpan: 1, fontSize: 8, bold: true, margin: [0, 2], color: '#0f13ac'},
+                {text: 'Placa N: ' + `${this.ordenDetalle.placa_vehiculo}`, style: 'tableHeader', colSpan: 1, fontSize: 8, bold: true, margin: [0, 2], color: '#0f13ac'}],
                 
-                [{text: 'Tiempo de duración de la comisión: ', style: 'tableHeader', colSpan: 1, fontSize: 10, bold: true, margin: [0, 2], color: '#0f13ac'},
-                {text: 'Matrícula N: ', style: 'tableHeader', colSpan: 1, fontSize: 10, bold: true, margin: [0, 2], color: '#0f13ac'}],
+                [{text: 'Tiempo de duración de la comisión: ' + `${this.ordenDetalle.fecha_desde}, ${this.ordenDetalle.hora_desde} - ${this.ordenDetalle.fecha_hasta}, ${this.ordenDetalle.hora_hasta}`, style: 'tableHeader', colSpan: 1, fontSize: 8, bold: true, margin: [0, 2], color: '#0f13ac'},
+                {text: 'Matrícula N: '+ `${this.ordenDetalle.numero_matricula}`, style: 'tableHeader', colSpan: 1, fontSize: 8, bold: true, margin: [0, 2], color: '#0f13ac'}],
 
-                [{text: 'Nombres y apellidos del conductor:\n\n\nN de cédula de ciudadanía:', style: 'tableHeader', colSpan: 1, fontSize: 10, bold: true, margin: [0, 2], color: '#0f13ac'},
-                {text: 'Motor N: ', style: 'tableHeader', colSpan: 1, rowspan: 2, fontSize: 10, bold: true, margin: [0, 2], color: '#0f13ac'}],
+                [{text: 'Nombres y apellidos del conductor: ' + `${this.ordenDetalle.empleado_conductor}` + '\nN de cédula de ciudadanía: ' + `${this.ordenDetalle.cedula_conductor}`, style: 'tableHeader', colSpan: 1, fontSize: 8, bold: true, margin: [0, 2], color: '#0f13ac'},
+                {text: 'Motor N: ' + `${this.ordenDetalle.numero_motor}`, style: 'tableHeader', colSpan: 1, fontSize: 8, bold: true, margin: [0, 2], color: '#0f13ac'}],
                  
-                [{text: 'Nombre y Apellidos del funcionario:\n\n\nN de cédula de ciudadanía:', style: 'tableHeader', colSpan: 1, fontSize: 10, bold: true, margin: [0, 2], color: '#0f13ac'},
-                {text: 'Año: ', style: 'tableHeader', colSpan: 1, fontSize: 10, bold: true, margin: [0, 2], color: '#0f13ac'}],
+                [{text: 'Nombre y Apellidos del funcionario: ' + `${this.ordenDetalle.empleado_solicitante}, ${this.ordenDetalle.listado_acompanantes}`, style: 'tableHeader', colSpan: 1, fontSize: 8, bold: true, margin: [0, 2], color: '#0f13ac'},
+                {text: 'Año: ' + `${this.ordenDetalle.anio_fabricacion}`, style: 'tableHeader', colSpan: 1, fontSize: 8, bold: true, margin: [0, 2], color: '#0f13ac'}],
                 
               ]
             }
@@ -78,12 +86,14 @@ export class OrdenMovilizacionComponent {
                 text: '',
               },
               {
-                text: '_____________________________\n      FIRMA AUTORIZADA',
-                fontSize: 10,
+                text: '_________________________________________\n      '+`${this.ordenDetalle.empleado_emisor}`+ 
+                '\n      '+`C.C.: ${this.ordenDetalle.cedula_emisor}`+
+                '\n      FIRMA AUTORIZADA',
+                fontSize: 8,
                 alignment: 'center',
                 color: '#0f13ac',
                 bold: true,
-                absolutePosition: { x: 250, y: 265 } 
+                absolutePosition: { x: 235, y: 260 } 
               }
             ]
           },
@@ -92,14 +102,18 @@ export class OrdenMovilizacionComponent {
     };
   
     (pdfMake as any).createPdf(documentDefinition).open();
+  }, (error: any) => {
+    console.error(error);
+  }
+  );
   }
   
   
-  
+
   
 
   getAllOrdenes(): void {
-    this.ordenService.getSolicitudes().subscribe(
+    this.ordenService.getOrdenes().subscribe(
       data => {
         this.ordenes = data;
         this.calculateTotalPages();

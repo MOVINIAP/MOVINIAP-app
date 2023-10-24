@@ -50,6 +50,14 @@ export const ROUTES: RouteInfo[] = [
     submenu: []
   },
   {
+    path: '/component/orden-movilizacion-empleado',
+    title: 'Mis Órdenes',
+    icon: 'bi bi-table',
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  {
     path: '/component/realizar-orden',
     title: 'Realizar Orden',
     icon: 'bi bi-pencil-square',
