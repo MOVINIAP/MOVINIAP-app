@@ -1,6 +1,6 @@
 <div class="container my-4">
     <h2 class="text-center my-4">Realizar orden de movilización</h2>
-    <form [formGroup]="solicitudForm" (ngSubmit)="enviarSolicitud()">
+    <form [formGroup]="ordenForm" (ngSubmit)="enviarSolicitud()">
       <div class="row justify-content-center">
 <div class="row">
     <div class="col-md-12">
@@ -73,7 +73,7 @@
         class="form-control"
         id="placa"
         [matAutocomplete]="auto3"
-        formControlName="id"
+        formControlName="id_vehiculo"
         placeholder="Ingresar vehículo"
       />
       <mat-autocomplete #auto3="matAutocomplete" (optionSelected)="onvehiculoSelected($event)">
@@ -87,25 +87,25 @@
 <div class="col-md-3">
   <div class="form-group mb-3">
       <label for="fecha_salida">Fecha salida</label>
-      <input type="date" class="form-control" id="fecha_salida_solicitud" formControlName="fecha_salida_solicitud" [min]="minDate" >
+      <input type="date" class="form-control" id="fecha_desde" formControlName="fecha_desde" [min]="minDate" >
     </div>
 </div>
       <div class="col-md-3">
         <div class="form-group mb-3">
             <label for="hora_salida">Hora Salida</label>
-            <input type="time" class="form-control" id="hora_salida_solicitud" formControlName="hora_salida_solicitud">
+            <input type="time" class="form-control" id="hora_desde" formControlName="hora_desde">
           </div>
       </div>
       <div class="col-md-3">
         <div class="form-group mb-3">
           <label for="fecha_llegada">Fecha llegada</label>
-          <input type="date" class="form-control" id="fecha_llegada_solicitud" formControlName="fecha_llegada_solicitud" [min]="minDate">
+          <input type="date" class="form-control" id="fecha_hasta" formControlName="fecha_hasta" [min]="minDate">
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group mb-3">
             <label for="hora_llegada">Hora llegada</label>
-            <input type="time" class="form-control" id="hora_llegada_solicitud" formControlName="hora_llegada_solicitud" >
+            <input type="time" class="form-control" id="hora_hasta" formControlName="hora_hasta" >
           </div>
       </div>
 
@@ -134,8 +134,8 @@
 </form>
 <form>
 <div class="col-md-6">
-  <button type="button" type="submit" class="btn btn-primary btn-sm my-2" [disabled]="!solicitudForm.valid || botonClicked" (click)=" abrirDialogoConfirmacion()">
-    <i class="fas fa-save"></i> Agregar orden
+  <button type="button" type="submit" class="btn btn-success btn-sm my-2" [disabled]="!ordenForm.valid || botonClicked" (click)=" abrirDialogoConfirmacion()">
+    <i class="fas fa-paper-plane"></i> Agregar orden
   </button>
 </div>
 </form>

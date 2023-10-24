@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class RegistrarDataService {
 
   private UrlSolicitud = 'http://localhost:3000/solicitudes/nueva-solicitud';
+  private UrlOrden = 'http://localhost:3000/ordenes-movilizacion/admin-crear';
   private UrlTransporte = 'http://localhost:3000';
 
   constructor(private http: HttpClient) { }
@@ -22,5 +23,8 @@ registrarTransporte(id_solicitud: number, data: any): Observable<any> {
   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   return this.http.post(url, data, { headers: headers });
+}
+  registrarOrden(data: any): Observable<any> {
+    return this.http.post(this.UrlOrden, data);
 }
 }

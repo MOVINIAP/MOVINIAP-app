@@ -48,8 +48,7 @@ export class RealizarOrdenComponent {
   selectedVehiculoId!:number;
   empleado_nombres1: any[] = [];
   botonClicked = false;
-  solicitudForm!: FormGroup;
-  transporteForm!: FormGroup;
+  ordenForm!: FormGroup;
   conjuntosForm: FormGroup[] = [];
   selectedCiudadId!:number;
   id_solicitud!:number;
@@ -73,7 +72,6 @@ export class RealizarOrdenComponent {
         
     // Asignar la fecha actual a minDate
     this.minDate = `${year}-${month}-${day}`;
-    this.agregarConjunto();
     
    }
 
@@ -84,20 +82,19 @@ export class RealizarOrdenComponent {
     this.getAllEmpleados();
     this.getAllVehiculos();
     this.initForm();
-    this.trasporteForm() ;
-    this.filteredCiudades = this.solicitudForm.get('id_ciudad_destino')!.valueChanges.pipe(
+    this.filteredCiudades = this.ordenForm.get('id_ciudad_destino')!.valueChanges.pipe(
       startWith(''),
       map((value) => this.filterCiudades(value))
     );
-    this.filteredEmpleados = this.solicitudForm.get('id_empleado_solicitante')!.valueChanges.pipe(  
+    this.filteredEmpleados = this.ordenForm.get('id_empleado_solicitante')!.valueChanges.pipe(  
       startWith(''),
       map((value) => this.filterEmpleadoSolicitante(value))
     );
-    this.filteredEmpleadoConductor = this.solicitudForm.get('id_empleado_conductor')!.valueChanges.pipe(  
+    this.filteredEmpleadoConductor = this.ordenForm.get('id_empleado_conductor')!.valueChanges.pipe(  
       startWith(''),
       map((value) => this.filterEmpleadoConductor(value))
     );
-    this.filteredVehiculo = this.solicitudForm.get('id')!.valueChanges.pipe(  
+    this.filteredVehiculo = this.ordenForm.get('id_vehiculo')!.valueChanges.pipe(  
       startWith(''),
       map((value) => this.filtervehiculos(value))
     );
@@ -142,7 +139,7 @@ export class RealizarOrdenComponent {
     this.listCBXService.getEmpleados().subscribe(
       data => {
         this.empleado_conductor = data;
-      //  console.log(this.empleado_conductor);
+      // console.log(this.empleado_conductor);
       },
       error => {
         console.error(error);
@@ -154,7 +151,7 @@ export class RealizarOrdenComponent {
     this.vehículosList.getvehiculos().subscribe(
       data => {
         this.vehiculos = data;
-        console.log(this.vehiculos);
+       //console.log(this.vehiculos);
       },
       error => {
         console.error(error);
@@ -188,7 +185,7 @@ export class RealizarOrdenComponent {
       const empleadoNombre = event.option.value;
       const selectedempleado = this.empleados_solicitantes.find(empleado_nombres => empleado_nombres.empleado_nombres === empleadoNombre);
       if (selectedempleado) {
-        this.selectedEmpleadoId = selectedempleado.id_empleado_solicitante;
+        this.selectedEmpleadoId = selectedempleado.id_empleado;
       }
     }
 
@@ -204,7 +201,7 @@ export class RealizarOrdenComponent {
       const empleadoNombreConductor = event.option.value;
       const selectedempleadoConductor = this.empleado_conductor.find(empleado_nombres => empleado_nombres.empleado_nombres === empleadoNombreConductor);
       if (selectedempleadoConductor) {
-        this.selectedEmpleadoConductorId = selectedempleadoConductor.id_empleado_conductor;
+        this.selectedEmpleadoConductorId = selectedempleadoConductor.id_empleado;
       }
     }
 
@@ -226,94 +223,60 @@ export class RealizarOrdenComponent {
 
 
   private initForm() {
-    this.solicitudForm = this.formBuilder.group({
+    this.ordenForm = this.formBuilder.group({
       id_ciudad_destino: ['', Validators.required],
-      motivo_movilizacion: ['', Validators.required],
-      fecha_salida_solicitud: ['', Validators.required],
-      hora_salida_solicitud: ['', Validators.required],
-      fecha_llegada_solicitud: ['', Validators.required],
-      hora_llegada_solicitud: ['', Validators.required],
+      fecha_desde: ['', Validators.required],
+      hora_desde: ['', Validators.required],
+      fecha_hasta: ['', Validators.required],
+      hora_hasta: ['', Validators.required],
       descripcion_actividades: ['', Validators.required],
       listado_empleados: ['', Validators.required],
-      estado_solicitud: ['BORRADOR', Validators.required],
       id_empleado_solicitante: ['', Validators.required],
       id_empleado_conductor: ['', Validators.required],
-      id: ['', Validators.required],
-    });
-  }
-
-  private trasporteForm() {
-    this.transporteForm = this.formBuilder.group({
-      tipo_transporte_soli: ['', Validators.required],
-      nombre_transporte_soli: ['', Validators.required],
-      ruta_soli: ['', Validators.required],
-      fecha_salida_soli: ['', Validators.required],
-      hora_salida_soli: ['', Validators.required],
-      fecha_llegada_soli: ['', Validators.required],
-      hora_llegada_soli: ['', Validators.required],
+      id_vehiculo: ['', Validators.required],
     });
   }
 
   enviarSolicitud() {
-    if (this.solicitudForm.valid) {
+    if (this.ordenForm.valid) {
       // Obtén el ID de la ciudad seleccionada utilizando selectedCiudadId
       const idCiudadSeleccionada = this.selectedCiudadId;
-      const idEmpleado = this.authService.getIdEmpleadoFromToken();
-      const motivoMovilizacionControl = this.solicitudForm.get('motivo_movilizacion');
-      const motivoMovilizacion = motivoMovilizacionControl?.value || '';
-  
-      // Define el valor de idOm basado en el valor de motivoMovilizacion
-      let idOm = motivoMovilizacion === 'INTERNA' ? '1' : '2';
+      const idEmpleadoEmisor = this.authService.getIdEmpleadoFromToken();
+      const id_empleado_solicitante = this.selectedEmpleadoId;
+      const id_empleado_conductor = this.selectedEmpleadoConductorId;
+      const id_vehiculo = this.selectedVehiculoId;
+      const secuencialOM = null;
+      const num_sec = null;
       
       // Obtiene los nombres de empleados seleccionados y los convierte en una cadena separada por comas
-      const empleadosSeleccionadosControl = this.solicitudForm.get('listado_empleados');
+      const empleadosSeleccionadosControl = this.ordenForm.get('listado_empleados');
       const empleadosSeleccionados = empleadosSeleccionadosControl?.value || '';
       const listadoEmpleados = empleadosSeleccionados.join(', ');
   
       // Ahora puedes enviar los datos del formulario con el ID de la ciudad y otros valores
       const formData = {
-        ...this.solicitudForm.value,
+        ...this.ordenForm.value,
         id_ciudad_destino: idCiudadSeleccionada,
-        id_empleado: idEmpleado,
-        id_tipo_om: idOm,
-        listado_empleados: listadoEmpleados 
+        id_empleado_emisor: idEmpleadoEmisor,
+        listado_empleados: listadoEmpleados,
+        id_empleado_solicitante:id_empleado_solicitante,
+        id_empleado_conductor: id_empleado_conductor,
+        id_vehiculo: id_vehiculo,
+        secuencial_orden_movilizacion: secuencialOM,
+        num_orden_mov_cge: num_sec,
       };
-      this.registrarSolicitudService.registrarSolicitud(formData).subscribe(
+      this.registrarSolicitudService.registrarOrden(formData).subscribe(
         (response) => {
           console.log('Respuesta del servidor:', response);
-          console.log(response.id_solicitud);
-          this.id_solicitud = parseInt(response.id_solicitud!,10);
         },
         (error) => {
           console.error('Error al enviar datos:', error);
         }
       );
       console.log(formData);
-  
 
     } else {
 
-    }
-  }
-
-  enviarTransporte() {
-    if (this.transporteForm.valid) {
-      // Obtener los datos del formulario
-      const dataToSend = this.transporteForm.value;
-      const idSolicitud = this.id_solicitud 
-
-      // Llamar al servicio para registrar el transporte
-      this.registrarTransporteService.registrarTransporte(idSolicitud, dataToSend).subscribe(
-        (response) => {
-          console.log('Respuesta del servidor:', response);
-        },
-        (error) => {
-          console.error('Error al registrar transporte:', error);
-        }
-      );
-
-      this.mostrarMensajeConfirmacion2();
-    } else {
     }
   }
 
@@ -325,21 +288,16 @@ export class RealizarOrdenComponent {
     });
   }
   mostrarMensajeConfirmacion() {
-    this.snackBar.open('¡Solicitud regitrada!', 'Cerrar', {
+    this.snackBar.open('¡Orden envíada!', 'Cerrar', {
       duration: 5000, // Duración del mensaje en milisegundos (3 segundos en este caso)
     });
   }
-  mostrarMensajeConfirmacion2() {
-    this.snackBar.open('¡Ruta resgistrada!', 'Cerrar', {
-      duration: 5000, // Duración del mensaje en milisegundos (3 segundos en este caso)
-    });
-  } 
   abrirDialogoConfirmacion() {
     this.verificarFecha();
     if (this.errorFecha==true) {
       Swal.fire({
-        title: 'Registrar solicitud',
-        text: 'Una vez que la registres, solo la podrás editar desde tu lista de solicitudes',
+        title: 'Agregar orden',
+        text: 'Una vez agregada la orden no podrá editarla',
         icon: 'question',
         showCancelButton: true,
         confirmButtonText: 'Aceptar',
@@ -348,6 +306,7 @@ export class RealizarOrdenComponent {
         if (result.isConfirmed) {
           // Aquí puedes realizar acciones si el usuario hizo clic en Aceptar
           this.enviarInformacion();
+          this.SolicitudEnviadaDialogo();
           // Lógica para continuar con la acción deseada
         } else {
           // Aquí puedes realizar acciones si el usuario hizo clic en Cancelar
@@ -380,8 +339,8 @@ export class RealizarOrdenComponent {
 
   SolicitudEnviadaDialogo() {
     Swal.fire({
-      title: '¡Solicitud envíada!',
-      text: 'Se ha envíado la solicitud con éxito, espera la respuesta del administrador',
+      title: '¡Orden agregada!',
+      text: 'Se ha envíado la orden con éxito, por medio del administrador',
       icon: 'success', // Utiliza 'success' para mostrar un visto de color verde
       showConfirmButton: false, // Oculta el botón de confirmar
       timer: 5000, // Muestra el mensaje por 5 segundos
@@ -391,8 +350,8 @@ export class RealizarOrdenComponent {
   }
 
   verificarFecha() {
-    const fechaSalidaControl = this.solicitudForm.get('fecha_salida_solicitud');
-    const fechaLlegadaControl = this.solicitudForm.get('fecha_llegada_solicitud');
+    const fechaSalidaControl = this.ordenForm.get('fecha_desde');
+    const fechaLlegadaControl = this.ordenForm.get('fecha_hasta');
     // Verificar si fechaSalidaControl es nulo antes de usarlo
     if (fechaSalidaControl && fechaLlegadaControl) {
       const today = new Date();
@@ -420,32 +379,11 @@ export class RealizarOrdenComponent {
       }
     }
   }
-  
-  
-  agregarConjunto() {
-    // Agregar un nuevo conjunto de datos vacío al array con su propio FormGroup
-    const nuevoConjunto = this.formBuilder.group({
-      tipo_transporte: ['', Validators.required],
-      nombre_transporte: ['', Validators.required],
-      ruta: ['', Validators.required],
-      fecha_salida_soli: ['', Validators.required],
-      hora_salida_soli: ['', Validators.required],
-      fecha_llegada_soli: ['', Validators.required],
-      hora_llegada_soli: ['', Validators.required],
-    });
-    this.conjuntosForm.push(nuevoConjunto);
-  }
-
-  quitarConjunto() {
-    // Remover el último conjunto de datos del array
-    this.conjuntosForm.pop();
-  }
 
   enviarInformacion() {
     if (!this.botonClicked) {
       // Lógica para realizar acciones solo la primera vez que se hace clic en el botón
       this.enviarSolicitud();
-      this.mostrarMensajeConfirmacion()
       this.botonClicked = true;
     } else {
       console.log("El botón ya fue clickeado");
