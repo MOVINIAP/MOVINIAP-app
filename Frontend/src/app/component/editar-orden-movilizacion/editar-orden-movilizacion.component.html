@@ -1,92 +1,148 @@
 <div class="container my-4">
-    <h2 class="text-center my-4">Detalle orden de movilización</h2>
-    <form [formGroup]="ordenForm" (ngSubmit)="enviarSolicitud()">
-      <div class="row justify-content-center">
-<div class="row">
-    <div class="col-md-12">
-      <hr class="my-1">
-    </div>
-  </div>
-        <!-- Columna izquierda -->
-        <div class="col-md-6">
-          <div class="form-group mb-3">
-            <label for="descripcion_actividades">Ciudad destino</label>
-            <input class="form-control" id="id_ciudad_destino" formControlName="ciudad_destino" [(ngModel)]="ordenDetail.ciudad_destino">
-          </div>
-        </div>
-<!-- Columna derecha -->
-<div class="col-md-6">
-    <div class="form-group mb-3">
-        <label for="descripcion_actividades">Empleado solicitante</label>
-        <input class="form-control" id="id_empleado_solicitante" formControlName="empleado_solicitante" [(ngModel)]="ordenDetail.empleado_solicitante">
-    </div>
-  </div>
-
-  <div class="col-md-6">
-    <div class="form-group mb-3">
-        <label for="descripcion_actividades">Empleado conductor</label>
-        <input class="form-control" id="id_empleado_conductor" formControlName="empleado_conductor" [(ngModel)]="ordenDetail.empleado_conductor">
-    </div>
-  </div>
-
-  <div class="col-md-6">
-    <div class="form-group mb-3">
-        <label for="descripcion_actividades">Nombre de vehículo</label>
-        <input class="form-control" id="id_vehiculo" formControlName="placa_vehiculo" [(ngModel)]="ordenDetail.placa_vehiculo">
-    </div>
-  </div>
-
-<div class="col-md-3">
-  <div class="form-group mb-3">
-    <label for="descripcion_actividades">Fecha Salida</label>
-    <input class="form-control" id="fecha_desde" formControlName="fecha_desde" [(ngModel)]="ordenDetail.fecha_desde">
-    </div>
-</div>
-      <div class="col-md-3">
-        <div class="form-group mb-3">
-            <label for="descripcion_actividades">Hora Salida</label>
-        <input class="form-control" id="hora_desde" formControlName="hora_desde" [(ngModel)]="ordenDetail.hora_desde">
-          </div>
-      </div>
-      <div class="col-md-3">
-        <div class="form-group mb-3">
-            <label for="descripcion_actividades">Fecha llegada</label>
-            <input class="form-control" id="fecha_hasta" formControlName="fecha_hasta" [(ngModel)]="ordenDetail.fecha_hasta">
+  <h2 class="text-center my-4">Detalle orden de movilización</h2>
+  <form [formGroup]="ordenForm" (ngSubmit)="enviarSolicitud()">
+    <div class="row justify-content-center">
+      <div class="row">
+        <div class="col-md-12">
+          <hr class="my-1" />
         </div>
       </div>
-      <div class="col-md-3">
+      <!-- Columna izquierda -->
+      <div class="col-md-6">
         <div class="form-group mb-3">
-            <label for="descripcion_actividades">Hora llegada</label>
-        <input class="form-control" id="hora_hasta" formControlName="hora_hasta" [(ngModel)]="ordenDetail.hora_hasta">
-          </div>
+          <label for="descripcion_actividades">Ciudad destino</label>
+          <input
+            class="form-control"
+            id="id_ciudad_destino"
+            formControlName="ciudad_destino"
+            [(ngModel)]="ordenDetail.ciudad_destino"
+          />
+        </div>
+      </div>
+      <!-- Columna derecha -->
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <label for="descripcion_actividades">Empleado solicitante</label>
+          <input
+            class="form-control"
+            id="id_empleado_solicitante"
+            formControlName="empleado_solicitante"
+            [(ngModel)]="ordenDetail.empleado_solicitante"
+          />
+        </div>
       </div>
 
       <div class="col-md-6">
-    <div class="form-group mb-3">
-        <label for="descripcion_actividades">Descripción de actividades</label>
-        <textarea class="form-control" id="descripcion_actividades" formControlName="descripcion_actividades" [(ngModel)]="ordenDetail.descripcion_actividades"></textarea>
+        <div class="form-group mb-3">
+          <label for="descripcion_actividades">Empleado conductor</label>
+          <input
+            class="form-control"
+            id="id_empleado_conductor"
+            formControlName="empleado_conductor"
+            [(ngModel)]="ordenDetail.empleado_conductor"
+          />
+        </div>
       </div>
-  </div>
-  <div class="col-md-6">
-    <div class="form-group mb-3">
-        <label for="descripcion_actividades">Listado de empleados</label>
-        <textarea class="form-control" id="listado_acompanantes" formControlName="listado_acompanantes" [(ngModel)]="ordenDetail.listado_acompanantes"></textarea>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-12">
-    <hr class="my-1">
-  </div>
-</div>
-</form>
-<form>
-<div class="col-md-6">
-    <button type="button" type="submit" class="btn btn-danger btn-sm my-2" (click)="volver()">
-        <i class="fas fa-arrow-left text-white"></i> <span class="text-white"> Volver</span>
-      </button>      
-</div>
-</form>
-  </div>
-  
 
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <label for="descripcion_actividades">Nombre de vehículo</label>
+          <input
+            class="form-control"
+            id="id_vehiculo"
+            formControlName="placa_vehiculo"
+            [(ngModel)]="ordenDetail.placa_vehiculo"
+          />
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="form-group mb-3">
+          <label for="descripcion_actividades">Fecha Salida</label>
+          <input
+            class="form-control"
+            id="fecha_desde"
+            formControlName="fecha_desde"
+            [(ngModel)]="ordenDetail.fecha_desde"
+          />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group mb-3">
+          <label for="descripcion_actividades">Hora Salida</label>
+          <input
+            class="form-control"
+            id="hora_desde"
+            formControlName="hora_desde"
+            [(ngModel)]="ordenDetail.hora_desde"
+          />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group mb-3">
+          <label for="descripcion_actividades">Fecha llegada</label>
+          <input
+            class="form-control"
+            id="fecha_hasta"
+            formControlName="fecha_hasta"
+            [(ngModel)]="ordenDetail.fecha_hasta"
+          />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group mb-3">
+          <label for="descripcion_actividades">Hora llegada</label>
+          <input
+            class="form-control"
+            id="hora_hasta"
+            formControlName="hora_hasta"
+            [(ngModel)]="ordenDetail.hora_hasta"
+          />
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <label for="descripcion_actividades"
+            >Descripción de actividades</label
+          >
+          <textarea
+            class="form-control"
+            id="descripcion_actividades"
+            formControlName="descripcion_actividades"
+            [(ngModel)]="ordenDetail.descripcion_actividades"
+          ></textarea>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <label for="descripcion_actividades">Listado de empleados</label>
+          <textarea
+            class="form-control"
+            id="listado_acompanantes"
+            formControlName="listado_acompanantes"
+            [(ngModel)]="ordenDetail.listado_acompanantes"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <hr class="my-1" />
+      </div>
+    </div>
+  </form>
+  <form>
+    <div class="col-md-6">
+      <button
+        type="button"
+        type="submit"
+        class="btn btn-danger btn-sm my-2"
+        (click)="volver()"
+      >
+        <i class="fas fa-arrow-left text-white"></i>
+        <span class="text-white"> Volver</span>
+      </button>
+    </div>
+  </form>
+</div>
