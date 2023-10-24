@@ -8,12 +8,23 @@ import { listCBX } from 'src/app/services/ciudades.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { AuthService } from 'src/app/services/auth.service';
 import { RegistrarDataService } from 'src/app/services/registrar-data.service';
+import { VehiculosService } from 'src/app/services/vehiculos.service';
 
 declare var $: any;
 
 interface Ciudad {
   id_ciudad: number;
   ciudad: string;
+}
+
+interface empleados_solicitantes{
+  id_empleado: number;
+  empleado_nombres: string;
+}
+
+interface empleados_conductores{
+  id_empleado: number;
+  empleado_nombres: string;
 }
 
 @Component({
@@ -26,8 +37,16 @@ export class RealizarOrdenComponent {
   opciones_motivo = ['INTERNA', 'VIATICOS', 'MOVILIZACION'];
   filteredCiudades!: Observable<any[]>;
   filteredEmpleados!: Observable<any[]>;
-  ciudades: any[] = []; // Aquí debes reemplazar con tus ciudades
-  empleado_nombres: any[] = [];
+  filteredEmpleadoConductor!: Observable<any[]>;
+  filteredVehiculo!: Observable<any[]>;
+  ciudades: any[] = [];
+  empleados_solicitantes: any[] = []; 
+  selectedEmpleadoId!:number;
+  empleado_conductor: any[] = []; 
+  selectedEmpleadoConductorId!:number;
+  vehiculos: any[] = []; 
+  selectedVehiculoId!:number;
+  empleado_nombres1: any[] = [];
   botonClicked = false;
   solicitudForm!: FormGroup;
   transporteForm!: FormGroup;
@@ -44,6 +63,7 @@ export class RealizarOrdenComponent {
     private authService: AuthService,
     private registrarSolicitudService: RegistrarDataService,
     private registrarTransporteService: RegistrarDataService,
+    private vehículosList: VehiculosService
     ) {
     // Calcular la fecha actual en formato yyyy-MM-dd
     const today = new Date();
@@ -59,12 +79,27 @@ export class RealizarOrdenComponent {
 
   ngOnInit() {
     this.getAllNombresCiudades();
+    this.getAllEmpleados2();
+    this.getAllEmpleados3();
     this.getAllEmpleados();
+    this.getAllVehiculos();
     this.initForm();
     this.trasporteForm() ;
     this.filteredCiudades = this.solicitudForm.get('id_ciudad_destino')!.valueChanges.pipe(
       startWith(''),
       map((value) => this.filterCiudades(value))
+    );
+    this.filteredEmpleados = this.solicitudForm.get('id_empleado_solicitante')!.valueChanges.pipe(  
+      startWith(''),
+      map((value) => this.filterEmpleadoSolicitante(value))
+    );
+    this.filteredEmpleadoConductor = this.solicitudForm.get('id_empleado_conductor')!.valueChanges.pipe(  
+      startWith(''),
+      map((value) => this.filterEmpleadoConductor(value))
+    );
+    this.filteredVehiculo = this.solicitudForm.get('id')!.valueChanges.pipe(  
+      startWith(''),
+      map((value) => this.filtervehiculos(value))
     );
   }
 
@@ -72,6 +107,7 @@ export class RealizarOrdenComponent {
     this.listCBXService.getCiudades().subscribe(
       data => {
         this.ciudades = data;
+       // console.log(this.ciudades);
       },
       error => {
         console.error(error);
@@ -82,7 +118,43 @@ export class RealizarOrdenComponent {
   getAllEmpleados(): void {
     this.listCBXService.getEmpleados().subscribe(
       data => {
-        this.empleado_nombres = data;
+       this.empleado_nombres1 = data;
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+
+  getAllEmpleados2(): void {
+    this.listCBXService.getEmpleados().subscribe(
+      data => {
+        this.empleados_solicitantes = data;
+      //  console.log(this.empleados_solicitantes);
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+
+  getAllEmpleados3(): void {
+    this.listCBXService.getEmpleados().subscribe(
+      data => {
+        this.empleado_conductor = data;
+      //  console.log(this.empleado_conductor);
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+
+  getAllVehiculos(): void {
+    this.vehículosList.getvehiculos().subscribe(
+      data => {
+        this.vehiculos = data;
+        console.log(this.vehiculos);
       },
       error => {
         console.error(error);
@@ -105,6 +177,53 @@ export class RealizarOrdenComponent {
       }
     }
 
+    // Utiliza un observable para filtrar las ciudades según el texto ingresado en el input
+  
+    filterEmpleadoSolicitante(value: string): empleados_solicitantes[] {
+      const filterValue = value.toLowerCase();
+      return this.empleados_solicitantes.filter(empleado_nombres => empleado_nombres.empleado_nombres.toLowerCase().includes(filterValue));
+    }
+
+    onEmpleadoSolicitanteSelected(event: MatAutocompleteSelectedEvent): void {
+      const empleadoNombre = event.option.value;
+      const selectedempleado = this.empleados_solicitantes.find(empleado_nombres => empleado_nombres.empleado_nombres === empleadoNombre);
+      if (selectedempleado) {
+        this.selectedEmpleadoId = selectedempleado.id_empleado_solicitante;
+      }
+    }
+
+    
+    // Utiliza un observable para filtrar las ciudades según el texto ingresado en el input
+  
+    filterEmpleadoConductor(value: string): empleados_conductores[] {
+      const filterValue = value.toLowerCase();
+      return this.empleado_conductor.filter(empleado_nombres => empleado_nombres.empleado_nombres.toLowerCase().includes(filterValue));
+    }
+    
+    onEmpleadoConductorSelected(event: MatAutocompleteSelectedEvent): void {
+      const empleadoNombreConductor = event.option.value;
+      const selectedempleadoConductor = this.empleado_conductor.find(empleado_nombres => empleado_nombres.empleado_nombres === empleadoNombreConductor);
+      if (selectedempleadoConductor) {
+        this.selectedEmpleadoConductorId = selectedempleadoConductor.id_empleado_conductor;
+      }
+    }
+
+        // Utiliza un observable para filtrar las ciudades según el texto ingresado en el input
+  
+        filtervehiculos(value: string): empleados_conductores[] {
+          const filterValue = value.toLowerCase();
+          return this.vehiculos.filter(placa => placa.placa.toLowerCase().includes(filterValue));
+        }
+        
+        onvehiculoSelected(event: MatAutocompleteSelectedEvent): void {
+          const vehiculoPlaca = event.option.value;
+          const selectedvehiculo = this.vehiculos.find(placa => placa.placa === vehiculoPlaca);
+          if (selectedvehiculo) {
+            this.selectedVehiculoId = selectedvehiculo.id;
+          }
+        }
+
+
 
   private initForm() {
     this.solicitudForm = this.formBuilder.group({
@@ -116,7 +235,10 @@ export class RealizarOrdenComponent {
       hora_llegada_solicitud: ['', Validators.required],
       descripcion_actividades: ['', Validators.required],
       listado_empleados: ['', Validators.required],
-      estado_solicitud: ['BORRADOR', Validators.required]
+      estado_solicitud: ['BORRADOR', Validators.required],
+      id_empleado_solicitante: ['', Validators.required],
+      id_empleado_conductor: ['', Validators.required],
+      id: ['', Validators.required],
     });
   }
 

@@ -1,7 +1,7 @@
 const { pool } = require('../connection/connection');
 
 const getAllEmployees = async (req, res) => {
-  const query = `SELECT distintivo, empleado_nombres, cargo, nombre_unidad, nombre_banco, tipo_cuenta, numero_cuenta FROM empleados_obtener_info_empleados_todos();`;
+  const query = `SELECT id_empleado, distintivo, empleado_nombres, cargo, nombre_unidad, nombre_banco, tipo_cuenta, numero_cuenta FROM empleados_obtener_info_empleados_todos();`;
   const response = await pool.query(query);
   console.log(response);
   res.json(response.rows);
