@@ -39,5 +39,10 @@ export class ListForByIdService {
     const url = `${this.apiUrl}/ordenes-movilizacion/${idOrden}`;
     return this.http.get(url, {});
   }
+  getDetalleOrdenMovilizacionEmpleado(idEmpleado: number): Observable<any> {
+    const url = `${this.apiUrl}/ordenes-movilizacion/${idEmpleado}`;
+    return this.http.get(url, {});
+  }
+
 
 }

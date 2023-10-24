@@ -25,6 +25,7 @@ import { VerSolicitudComponent } from './ver-solicitud/ver-solicitud.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { InfromesPendientesComponent } from './infromes-pendientes/infromes-pendientes.component';
 import { EditSolicitudComponent } from './edit-solicitud/edit-solicitud.component';
+import { OrdenMovilizacionEmpleadoComponent } from './orden-movilizacion-empleado/orden-movilizacion-empleado.component';
 
 
 export const ComponentsRoutes: Routes = [
@@ -86,6 +87,10 @@ export const ComponentsRoutes: Routes = [
 			{
 				path: 'orden-movilizacion',
 				component: OrdenMovilizacionComponent
+			},
+			{
+				path: 'orden-movilizacion-empleado',
+				component: OrdenMovilizacionEmpleadoComponent
 			},
 			{
 				path: 'realizar-orden',

@@ -53,7 +53,7 @@ export class SidebarComponent implements OnInit {
     }
   
     if (userRole === '3') {
-      const allowedRoutes = ['/component/ver-informe','/component/realizar-solicitud', '/component/table', '/component/informesPendientes'];
+      const allowedRoutes = ['/component/ver-informe','/component/realizar-solicitud', '/component/table', '/component/informesPendientes','/component/orden-movilizacion-empleado' ];
       return allowedRoutes.includes(sidebarnavItem.path);
     }
   
